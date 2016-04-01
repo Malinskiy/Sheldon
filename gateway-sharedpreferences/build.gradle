@@ -1,0 +1,40 @@
+apply plugin: 'com.android.library'
+apply plugin: "me.tatarka.retrolambda"
+apply from: "$rootDir/buildsystem/upload/android.gradle"
+
+android {
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
+
+    defaultConfig {
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode versions.code
+        versionName versions.name
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    lintOptions {
+        textReport true
+        textOutput 'stdout'
+    }
+}
+
+dependencies {
+    compile project(':core')
+
+    testCompile libraries.junit
+    testCompile libraries.robolectric
+    testCompile libraries.assertJ
+    testCompile libraries.mockitoCore
+}

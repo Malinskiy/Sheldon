@@ -1,0 +1,25 @@
+apply from: 'buildsystem/dependencies.gradle'
+
+buildscript {
+    apply from: 'buildsystem/dependencies.gradle'
+
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.0.0-rc1'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath "me.tatarka:gradle-retrolambda:3.2.5"
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "http://nexus.malinskiy.com/content/repositories/releases" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

@@ -1,0 +1,48 @@
+ext.versions = [
+        code              : 1,
+        name              : '0.1.0',
+
+        minSdk            : 9,
+        targetSdk         : 23,
+        compileSdk        : 23,
+        buildTools        : '23.0.2',
+
+        // Library versions
+        dagger            : '2.1',
+        jsr305            : '3.0.1',
+        javaxAnnotationApi: '1.2',
+        rx                : '1.1.1',
+        rxBinding         : '0.3.0',
+        poet              : '1.5.1',
+        autoservice       : '1.0-rc2',
+        autofactory       : '1.0-beta3',
+        supportLibs       : '23.1.1',
+        guava             : '19.0',
+
+        // Test library versions
+        junit             : '4.12',
+        mockito           : '1.9.5',
+        assertJ           : '2.3.0',
+        robolectric       : '3.0',
+        compileTesting    : '0.9'
+]
+
+ext.libraries = [
+        javaxAnnotationApi: "javax.annotation:javax.annotation-api:$versions.javaxAnnotationApi",
+        jsr305            : "com.google.code.findbugs:jsr305:$versions.jsr305",
+
+        rx                : "io.reactivex:rxjava:$versions.rx",
+        supportAppCompat  : "com.android.support:appcompat-v7:$versions.supportLibs",
+        supportAnnotations: "com.android.support:support-annotations:$versions.supportLibs",
+        poet              : "com.squareup:javapoet:$versions.poet",
+        autoservice       : "com.google.auto.service:auto-service:$versions.autoservice",
+        autofactory       : "com.google.auto.factory:auto-factory:$versions.autofactory",
+        guava             : "com.google.guava:guava:$versions.guava",
+
+        // Test dependencies
+        junit             : "junit:junit:$versions.junit",
+        robolectric       : "org.robolectric:robolectric:$versions.robolectric",
+        assertJ           : "org.assertj:assertj-core:$versions.assertJ",
+        mockitoCore       : "org.mockito:mockito-core:$versions.mockito",
+        compileTesting    : "com.google.testing.compile:compile-testing:$versions.compileTesting"
+]

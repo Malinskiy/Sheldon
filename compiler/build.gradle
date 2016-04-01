@@ -1,0 +1,17 @@
+apply plugin: 'java'
+apply from: "$rootDir/buildsystem/upload/java.gradle"
+
+sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_7
+
+dependencies {
+    compile project(':core')
+    compile libraries.guava
+    compile libraries.autoservice
+    compile libraries.poet
+
+    testCompile libraries.junit
+    testCompile libraries.assertJ
+    testCompile libraries.mockitoCore
+    testCompile libraries.compileTesting
+}

@@ -1,0 +1,3 @@
+include ':core', ':compiler'
+include ':gateway-sharedpreferences'
+include ':sample'
