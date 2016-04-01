@@ -9,6 +9,9 @@ import javax.annotation.Nullable;
 
 import rx.Observable;
 import rx.Subscriber;
+import rx.functions.Action1;
+import rx.functions.Func0;
+import rx.functions.Func1;
 
 public class SharedPreferencesGateway implements IGateway {
 
@@ -16,64 +19,128 @@ public class SharedPreferencesGateway implements IGateway {
     @Nonnull private SharedPreferences preferences;
     @Nullable private SharedPreferences.OnSharedPreferenceChangeListener listener;
 
-    public SharedPreferencesGateway(@Nonnull SharedPreferences preferences) {
+    public SharedPreferencesGateway(@Nonnull final SharedPreferences preferences) {
         this.preferences = preferences;
 
         keyChangesObservable =
                 Observable.using(
-                        () -> preferences,
-
-                        preferencesToRegisterTo -> Observable.create(new Observable.OnSubscribe<String>() {
-                            @Override public void call(final Subscriber<? super String> subscriber) {
-                                listener = (sharedPreferences1, key) -> {
-                                    subscriber.onNext(key);
-                                };
-                                preferencesToRegisterTo.registerOnSharedPreferenceChangeListener(listener);
+                        new Func0<SharedPreferences>() {
+                            @Override public SharedPreferences call() {
+                                return preferences;
                             }
-                        }),
+                        },
 
-                        preferencesToDisposeOf -> {
-                            preferencesToDisposeOf.unregisterOnSharedPreferenceChangeListener(listener);
-                            listener = null;
+                        new Func1<SharedPreferences, Observable<? extends String>>() {
+                            @Override
+                            public Observable<? extends String> call(final SharedPreferences sharedPreferences) {
+                                return Observable.create(new Observable.OnSubscribe<String>() {
+                                    @Override public void call(final Subscriber<? super String> subscriber) {
+                                        listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+                                            @Override
+                                            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                                                subscriber.onNext(key);
+                                            }
+                                        };
+                                        sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+                                    }
+                                });
+                            }
+                        },
+
+                        new Action1<SharedPreferences>() {
+                            @Override public void call(SharedPreferences sharedPreferences) {
+                                sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
+                                listener = null;
+                            }
                         })
                           .publish()
                           .refCount();
     }
 
     @Nonnull @Override
-    public Observable<Boolean> observeBoolean(@Nonnull final String key, @Nonnull final Boolean defaultValue) {
+    public Observable<Boolean> observeBoolean(@Nonnull final String key,
+                                              @Nonnull final Boolean defaultValue) {
+
         return keyChangesObservable
                 .startWith(key)
-                .filter(changedKey -> changedKey.equals(key))
-                .map(s -> preferences.getBoolean(s, defaultValue));
+                .filter(new Func1<String, Boolean>() {
+                    @Override public Boolean call(String changedKey) {
+                        return changedKey.equals(key);
+                    }
+                })
+                .map(new Func1<String, Boolean>() {
+                    @Override public Boolean call(String s) {
+                        return preferences.getBoolean(s, defaultValue);
+                    }
+                });
     }
 
-    @Nonnull @Override public Observable<Float> observeFloat(@Nonnull String key, @Nonnull Float defaultValue) {
+    @Nonnull @Override public Observable<Float> observeFloat(@Nonnull final String key,
+                                                             @Nonnull final Float defaultValue) {
+
         return keyChangesObservable
                 .startWith(key)
-                .filter(changedKey -> changedKey.equals(key))
-                .map(s -> preferences.getFloat(s, defaultValue));
+                .filter(new Func1<String, Boolean>() {
+                    @Override public Boolean call(String changedKey) {
+                        return changedKey.equals(key);
+                    }
+                })
+                .map(new Func1<String, Float>() {
+                    @Override public Float call(String s) {
+                        return preferences.getFloat(s, defaultValue);
+                    }
+                });
     }
 
-    @Nonnull @Override public Observable<Integer> observeInteger(@Nonnull String key, @Nonnull Integer defaultValue) {
+    @Nonnull @Override public Observable<Integer> observeInteger(@Nonnull final String key,
+                                                                 @Nonnull final Integer defaultValue) {
+
         return keyChangesObservable
                 .startWith(key)
-                .filter(changedKey -> changedKey.equals(key))
-                .map(s -> preferences.getInt(s, defaultValue));
+                .filter(new Func1<String, Boolean>() {
+                    @Override public Boolean call(String changedKey) {
+                        return changedKey.equals(key);
+                    }
+                })
+                .map(new Func1<String, Integer>() {
+                    @Override public Integer call(String s) {
+                        return preferences.getInt(s, defaultValue);
+                    }
+                });
     }
 
-    @Nonnull @Override public Observable<Long> observeLong(@Nonnull String key, @Nonnull Long defaultValue) {
+    @Nonnull @Override public Observable<Long> observeLong(@Nonnull final String key,
+                                                           @Nonnull final Long defaultValue) {
+
         return keyChangesObservable
                 .startWith(key)
-                .filter(changedKey -> changedKey.equals(key))
-                .map(s -> preferences.getLong(s, defaultValue));
+                .filter(new Func1<String, Boolean>() {
+                    @Override public Boolean call(String changedKey) {
+                        return changedKey.equals(key);
+                    }
+                })
+                .map(new Func1<String, Long>() {
+                    @Override public Long call(String s) {
+                        return preferences.getLong(s, defaultValue);
+                    }
+                });
     }
 
-    @Nonnull @Override public Observable<String> observeString(@Nonnull String key, @Nonnull String defaultValue) {
+    @Nonnull @Override public Observable<String> observeString(@Nonnull final String key,
+                                                               @Nonnull final String defaultValue) {
+
         return keyChangesObservable
                 .startWith(key)
-                .filter(changedKey -> changedKey.equals(key))
-                .map(s -> preferences.getString(s, defaultValue));
+                .filter(new Func1<String, Boolean>() {
+                    @Override public Boolean call(String changedKey) {
+                        return changedKey.equals(key);
+                    }
+                })
+                .map(new Func1<String, String>() {
+                    @Override public String call(String s) {
+                        return preferences.getString(s, defaultValue);
+                    }
+                });
     }
 
     @Override public void putBoolean(@Nonnull String key, @Nonnull Boolean value) {
@@ -106,8 +173,12 @@ public class SharedPreferencesGateway implements IGateway {
                    .apply();
     }
 
-    @Nonnull @Override public Observable<Boolean> contains(@Nonnull String key) {
-        return Observable.fromCallable(() -> preferences.contains(key));
+    @Nonnull @Override public Observable<Boolean> contains(@Nonnull final String key) {
+        return Observable.fromCallable(new Func0<Boolean>() {
+            @Override public Boolean call() {
+                return preferences.contains(key);
+            }
+        });
     }
 
     @Override public void remove(@Nonnull String key) {

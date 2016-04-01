@@ -114,9 +114,3 @@ afterEvaluate { project ->
         archives javadocJar
     }
 }
-
-configurations { archives }
-
-configurations.archives.resolutionStrategy.dependencySubstitution {
-    substitute project(':core') with module('com.malinskiy.sheldon:core:0.1.0')
-}

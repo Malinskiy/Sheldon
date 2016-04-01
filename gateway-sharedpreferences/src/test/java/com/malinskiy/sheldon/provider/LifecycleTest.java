@@ -38,7 +38,8 @@ public class LifecycleTest {
         gateway.observeBoolean("preference", false)
                .subscribe();
 
-        verify(sharedPreferences).registerOnSharedPreferenceChangeListener(any());
+        verify(sharedPreferences).registerOnSharedPreferenceChangeListener(
+                any(SharedPreferences.OnSharedPreferenceChangeListener.class));
     }
 
     @Test
@@ -47,6 +48,7 @@ public class LifecycleTest {
                                            .subscribe();
         subscription.unsubscribe();
 
-        verify(sharedPreferences).unregisterOnSharedPreferenceChangeListener(any());
+        verify(sharedPreferences).unregisterOnSharedPreferenceChangeListener(
+                any(SharedPreferences.OnSharedPreferenceChangeListener.class));
     }
 }

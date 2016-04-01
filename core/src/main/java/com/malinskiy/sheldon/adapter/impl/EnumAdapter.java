@@ -6,6 +6,7 @@ import com.malinskiy.sheldon.adapter.IPreferenceAdapter;
 import javax.annotation.Nonnull;
 
 import rx.Observable;
+import rx.functions.Func1;
 
 public class EnumAdapter<T extends Enum<T>> implements IPreferenceAdapter<T> {
 
@@ -18,7 +19,11 @@ public class EnumAdapter<T extends Enum<T>> implements IPreferenceAdapter<T> {
     @Nonnull @Override
     public Observable<T> observe(@Nonnull String key, @Nonnull T defaultValue, @Nonnull IGateway gateway) {
         return gateway.observeString(key, toString(defaultValue))
-                      .map(this::fromString);
+                      .map(new Func1<String, T>() {
+                          @Override public T call(String s) {
+                              return fromString(s);
+                          }
+                      });
     }
 
     @Override public void put(@Nonnull String key, @Nonnull T value, IGateway gateway) {

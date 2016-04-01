@@ -44,7 +44,7 @@ public class EnumAdapterTest {
 
         verify(observer).onNext(NUMBER.TWO);
         verify(observer).onCompleted();
-        verify(observer, never()).onError(any());
+        verify(observer, never()).onError(any(Throwable.class));
     }
 
     @Test
