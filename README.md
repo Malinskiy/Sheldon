@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Malinskiy/Sheldon.svg?branch=master)](https://travis-ci.org/Malinskiy/Sheldon)
+[![Build Status](https://travis-ci.org/Malinskiy/Sheldon.svg?branch=master)](https://travis-ci.org/Malinskiy/Sheldon) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Sheldon-green.svg?style=true)](https://android-arsenal.com/details/1/3378)
 
 # Sheldon
 Key concepts:
@@ -20,7 +20,7 @@ public interface SomePreferences {
     @Get(name = "name") Observable<String> getValueName();
     @Set(name = "name") void setValue(String newValue);
     ...
-    @Contains Obsrvable<Boolean> contains(String key);
+    @Contains Observable<Boolean> contains(String key);
     @Delete void remove(String key);
 }
 ```
