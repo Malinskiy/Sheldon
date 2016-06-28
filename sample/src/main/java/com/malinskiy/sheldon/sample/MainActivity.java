@@ -1,5 +1,6 @@
 package com.malinskiy.sheldon.sample;
 
+import com.malinskiy.sheldon.AdapterRepository;
 import com.malinskiy.sheldon.provider.SharedPreferencesGatewayBuilder;
 
 import android.app.Activity;

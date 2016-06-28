@@ -135,7 +135,7 @@ public class PreferencesProcessor extends AbstractProcessor {
 
         TypeVariableName t = TypeVariableName.get("T");
         MethodSpec.Builder registerMethodBuidler = MethodSpec.methodBuilder("register")
-                                                             .addModifiers(Modifier.PRIVATE)
+                                                             .addModifiers(Modifier.PUBLIC)
                                                              .addTypeVariable(t)
                                                              .returns(void.class)
                                                              .addParameter(ParameterizedTypeName.get(ClassName.get(Class.class), t), "clazz")
