@@ -20,7 +20,7 @@ import io.reactivex.Observable;
 public class GetValidator {
     public static void checkValidGetter(@Nonnull ExecutableElement method, Map<String, DefaultValue> defaultsMap) throws ProcessingException {
         List<? extends VariableElement> parameters = method.getParameters();
-        if (parameters.size() != 0) {
+        if (!parameters.isEmpty()) {
             throw new ProcessingException(method,
                     "Invalid number of parameters for getter. Should be zero parameters");
         }

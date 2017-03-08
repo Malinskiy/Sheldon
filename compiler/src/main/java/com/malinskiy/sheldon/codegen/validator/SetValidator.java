@@ -24,7 +24,7 @@ public class SetValidator {
         }
 
         TypeMirror returnType = method.getReturnType();
-        if (!returnType.getKind().equals(TypeKind.VOID)) {
+        if (returnType.getKind() != TypeKind.VOID) {
             throw new ProcessingException(method,
                     "Invalid return type @%s for setter. Should be void",
                     returnType.toString());

@@ -25,7 +25,7 @@ public class Utils {
     /**
      * Get preference type from method element
      */
-    public static PREF_TYPE getType(ExecutableElement method) throws com.malinskiy.sheldon.codegen.ProcessingException {
+    public static PREF_TYPE getType(ExecutableElement method) throws ProcessingException {
         boolean isSetter = method.getReturnType().getKind().equals(TypeKind.VOID);
 
         return isSetter ?
@@ -52,29 +52,29 @@ public class Utils {
     /**
      * Get name of preference from getter or setter method
      */
-    public static String getName(ExecutableElement method) throws com.malinskiy.sheldon.codegen.ProcessingException {
+    public static String getName(ExecutableElement method) throws ProcessingException {
         Get getAnnotation = method.getAnnotation(Get.class);
         Set setAnnotation = method.getAnnotation(Set.class);
 
         if (getAnnotation == null && setAnnotation == null) {
-            throw new com.malinskiy.sheldon.codegen.ProcessingException(method, "No annotations present. Should be either @Get or @Set");
+            throw new ProcessingException(method, "No annotations present. Should be either @Get or @Set");
         } else if (getAnnotation == null && setAnnotation != null) {
             return setAnnotation.name();
         } else if (getAnnotation != null && setAnnotation == null) {
             return getAnnotation.name();
         } else {
-            throw new com.malinskiy.sheldon.codegen.ProcessingException(method, "Method annotated with @Get and @Set");
+            throw new ProcessingException(method, "Method annotated with @Get and @Set");
         }
     }
 
     /**
      * Get preference name from field annotated with
      */
-    public static String getName(VariableElement variable) throws com.malinskiy.sheldon.codegen.ProcessingException {
+    public static String getName(VariableElement variable) throws ProcessingException {
         Default annotation = variable.getAnnotation(Default.class);
 
         if (annotation == null) {
-            throw new com.malinskiy.sheldon.codegen.ProcessingException(variable, "No annotation @Default present");
+            throw new ProcessingException(variable, "No annotation @Default present");
         }
 
         return annotation.name();

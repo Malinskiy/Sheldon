@@ -10,7 +10,7 @@ import javax.lang.model.type.TypeKind;
 
 public class DeleteValidator {
     public static void checkValidDelete(@Nonnull ExecutableElement method) throws ProcessingException {
-        if (!method.getReturnType().getKind().equals(TypeKind.VOID)) {
+        if (method.getReturnType().getKind() != TypeKind.VOID) {
             throw new ProcessingException(
                     method,
                     "Should return void"
