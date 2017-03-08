@@ -2,7 +2,7 @@ package com.malinskiy.sheldon.codegen.model;
 
 import com.google.common.base.Preconditions;
 
-import com.malinskiy.sheldon.codegen.PREF_TYPE;
+import com.malinskiy.sheldon.codegen.PrefType;
 import com.malinskiy.sheldon.codegen.ProcessingException;
 import com.malinskiy.sheldon.codegen.Utils;
 import com.squareup.javapoet.ClassName;
@@ -20,13 +20,13 @@ public class Getter implements Generatable {
     @Nonnull private final String namespace;
     @Nonnull private final ExecutableElement method;
     @Nonnull private final String providerFieldName;
-    @Nonnull private final com.malinskiy.sheldon.codegen.model.DefaultValue defaultValue;
+    @Nonnull private final DefaultValue defaultValue;
     @Nonnull private final ClassName repositoryClassName;
 
     public Getter(@Nonnull String namespace,
                   @Nonnull ExecutableElement method,
                   @Nonnull String providerFieldName,
-                  @Nonnull com.malinskiy.sheldon.codegen.model.DefaultValue defaultValue,
+                  @Nonnull DefaultValue defaultValue,
                   @Nonnull ClassName repositoryClassName) {
 
         this.namespace = Preconditions.checkNotNull(namespace);
@@ -49,8 +49,8 @@ public class Getter implements Generatable {
 
         String defaultFieldName = defaultValue.getElement().getSimpleName().toString();
 
-        PREF_TYPE PREFType = Utils.getType(method);
-        switch (PREFType) {
+        PrefType prefType = Utils.getType(method);
+        switch (prefType) {
             case BOOLEAN:
                 methodBuilder.addStatement(simpleStatement("Boolean", prefName, defaultFieldName));
                 break;
@@ -72,7 +72,7 @@ public class Getter implements Generatable {
                         defaultValue.getElement().asType());
                 break;
             default:
-                throw new ProcessingException(method, "Unsupported preference type %s", PREFType.name());
+                throw new ProcessingException(method, "Unsupported preference type %s", prefType.name());
         }
 
         builder.addMethod(methodBuilder.build());

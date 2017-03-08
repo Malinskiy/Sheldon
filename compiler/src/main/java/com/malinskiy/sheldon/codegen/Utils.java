@@ -16,7 +16,7 @@ public class Utils {
     /**
      * Get preference type from variable element (field, method parameter)
      */
-    public static PREF_TYPE getType(VariableElement parameterElement) {
+    public static PrefType getType(VariableElement parameterElement) {
         TypeMirror type = parameterElement.asType();
 
         return getType(type);
@@ -25,7 +25,7 @@ public class Utils {
     /**
      * Get preference type from method element
      */
-    public static PREF_TYPE getType(ExecutableElement method) throws ProcessingException {
+    public static PrefType getType(ExecutableElement method) throws ProcessingException {
         boolean isSetter = method.getReturnType().getKind().equals(TypeKind.VOID);
 
         return isSetter ?
@@ -33,19 +33,19 @@ public class Utils {
                getType(MoreTypes.asDeclared(method.getReturnType()).getTypeArguments().get(0));
     }
 
-    private static PREF_TYPE getType(TypeMirror type) {
+    private static PrefType getType(TypeMirror type) {
         if (MoreTypes.isTypeOf(Boolean.class, type)) {
-            return PREF_TYPE.BOOLEAN;
+            return PrefType.BOOLEAN;
         } else if (MoreTypes.isTypeOf(Float.class, type)) {
-            return PREF_TYPE.FLOAT;
+            return PrefType.FLOAT;
         } else if (MoreTypes.isTypeOf(Integer.class, type)) {
-            return PREF_TYPE.INT;
+            return PrefType.INT;
         } else if (MoreTypes.isTypeOf(Long.class, type)) {
-            return PREF_TYPE.LONG;
+            return PrefType.LONG;
         } else if (MoreTypes.isTypeOf(String.class, type)) {
-            return PREF_TYPE.STRING;
+            return PrefType.STRING;
         } else {
-            return PREF_TYPE.OBJECT;
+            return PrefType.OBJECT;
         }
     }
 

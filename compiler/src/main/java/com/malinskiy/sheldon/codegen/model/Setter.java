@@ -2,7 +2,7 @@ package com.malinskiy.sheldon.codegen.model;
 
 import com.google.common.base.Preconditions;
 
-import com.malinskiy.sheldon.codegen.PREF_TYPE;
+import com.malinskiy.sheldon.codegen.PrefType;
 import com.malinskiy.sheldon.codegen.ProcessingException;
 import com.malinskiy.sheldon.codegen.Utils;
 import com.squareup.javapoet.ClassName;
@@ -42,7 +42,7 @@ public class Setter implements Generatable {
         String parameterName = parameterElement.getSimpleName().toString();
         TypeName parameterTypeName = TypeName.get(parameterType);
 
-        PREF_TYPE PREFType = Utils.getType(parameterElement);
+        PrefType PREFType = Utils.getType(parameterElement);
         String prefName = Utils.getName(method);
 
         MethodSpec.Builder setterBuilder = MethodSpec.methodBuilder(methodName)

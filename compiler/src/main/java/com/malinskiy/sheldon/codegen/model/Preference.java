@@ -51,10 +51,10 @@ public class Preference {
     @Nonnull private final ClassName repositoryClassName;
     @Nonnull private final Messager messager;
 
-    @Nonnull private final Map<String, com.malinskiy.sheldon.codegen.model.Getter> gettersMap = Maps.newHashMap();
+    @Nonnull private final Map<String, Getter> gettersMap = Maps.newHashMap();
     @Nonnull private final Map<String, Setter> settersMap = Maps.newHashMap();
-    @Nonnull private final Map<String, com.malinskiy.sheldon.codegen.model.DefaultValue> defaultsMap = Maps.newHashMap();
-    @Nonnull private Optional<com.malinskiy.sheldon.codegen.model.Contains> contains = Optional.absent();
+    @Nonnull private final Map<String, DefaultValue> defaultsMap = Maps.newHashMap();
+    @Nonnull private Optional<Contains> contains = Optional.absent();
     @Nonnull private Optional<Deleter> deleter = Optional.absent();
 
     public Preference(@Nonnull TypeElement interfaceElement,
@@ -85,7 +85,7 @@ public class Preference {
 
         //2. Populate getters and setters
         for (Element element : annotatedClassElement.getEnclosedElements()) {
-            if (element.getKind().equals(ElementKind.METHOD)) {
+            if (element.getKind() == ElementKind.METHOD) {
                 ExecutableElement method = (ExecutableElement) element;
                 if (method.getAnnotation(Get.class) != null) {
                     GetValidator.checkValidGetter(method, defaultsMap);
@@ -98,7 +98,7 @@ public class Preference {
                     deleter = Optional.of(new Deleter(method, PROVIDER_FIELD_NAME));
                 } else if (method.getAnnotation(com.malinskiy.sheldon.annotation.Contains.class) != null) {
                     ContainsValidator.checkValidContainsMethod(method);
-                    contains = Optional.of(new com.malinskiy.sheldon.codegen.model.Contains(method, PROVIDER_FIELD_NAME));
+                    contains = Optional.of(new Contains(method, PROVIDER_FIELD_NAME));
                 } else {
                     throw new ProcessingException(
                             method,
@@ -115,7 +115,7 @@ public class Preference {
     private void addDefault(VariableElement variable) throws ProcessingException {
         String name = Utils.getName(variable);
 
-        defaultsMap.put(name, new com.malinskiy.sheldon.codegen.model.DefaultValue(variable, name));
+        defaultsMap.put(name, new DefaultValue(variable, name));
     }
 
     private void addSetter(ExecutableElement method) throws ProcessingException {
@@ -126,7 +126,7 @@ public class Preference {
 
     private void addGetter(ExecutableElement method) throws ProcessingException {
         String name = Utils.getName(method);
-        gettersMap.put(name, new com.malinskiy.sheldon.codegen.model.Getter(namespace, method, PROVIDER_FIELD_NAME, defaultsMap.get(name), repositoryClassName));
+        gettersMap.put(name, new Getter(namespace, method, PROVIDER_FIELD_NAME, defaultsMap.get(name), repositoryClassName));
     }
 
     public String getNamespace() {
@@ -167,7 +167,7 @@ public class Preference {
             setter.generateCode(builder);
         }
 
-        for (com.malinskiy.sheldon.codegen.model.Getter getter : gettersMap.values()) {
+        for (Getter getter : gettersMap.values()) {
             getter.generateCode(builder);
         }
 

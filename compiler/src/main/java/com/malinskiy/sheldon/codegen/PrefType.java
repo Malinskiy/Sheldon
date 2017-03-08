@@ -1,6 +1,6 @@
 package com.malinskiy.sheldon.codegen;
 
-public enum PREF_TYPE {
+public enum PrefType {
 
     BOOLEAN,
     FLOAT,
