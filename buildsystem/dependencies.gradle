@@ -8,14 +8,11 @@ ext.versions = [
         buildTools        : '25.0.2',
 
         // Library versions
-        dagger            : '2.9',
         jsr305            : '3.0.1',
         javaxAnnotationApi: '1.2',
         rx                : '2.0.7',
-        poet              : '1.7.0',
+        poet              : '1.8.0',
         autoservice       : '1.0-rc2',
-        autofactory       : '1.0-beta3',
-        supportLibs       : '23.1.1',
 
         // Test library versions
         junit             : '4.12',
@@ -30,11 +27,8 @@ ext.libraries = [
         jsr305            : "com.google.code.findbugs:jsr305:$versions.jsr305",
 
         rx                : "io.reactivex.rxjava2:rxjava:$versions.rx",
-        supportAppCompat  : "com.android.support:appcompat-v7:$versions.supportLibs",
-        supportAnnotations: "com.android.support:support-annotations:$versions.supportLibs",
         poet              : "com.squareup:javapoet:$versions.poet",
         autoservice       : "com.google.auto.service:auto-service:$versions.autoservice",
-        autofactory       : "com.google.auto.factory:auto-factory:$versions.autofactory",
 
         // Test dependencies
         junit             : "junit:junit:$versions.junit",
