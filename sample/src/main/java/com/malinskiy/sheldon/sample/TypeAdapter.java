@@ -6,16 +6,17 @@ import com.malinskiy.sheldon.annotation.Adapter;
 
 import javax.annotation.Nonnull;
 
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
+
 
 @Adapter
 public class TypeAdapter implements IPreferenceAdapter<Type> {
     @Nonnull @Override
     public Observable<Type> observe(@Nonnull String key, @Nonnull Type defaultValue, @Nonnull IGateway gateway) {
         return gateway.observeString(key, defaultValue.name())
-                      .map(new Func1<String, Type>() {
-                          @Override public Type call(String s) {
+                      .map(new Function<String, Type>() {
+                          @Override public Type apply(String s) {
                               return Type.valueOf(s);
                           }
                       });

@@ -4,14 +4,20 @@ import com.malinskiy.sheldon.IGateway;
 
 import android.content.SharedPreferences;
 
+import java.util.concurrent.Callable;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Action1;
-import rx.functions.Func0;
-import rx.functions.Func1;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
+
 
 public class SharedPreferencesGateway implements IGateway {
 
@@ -23,37 +29,31 @@ public class SharedPreferencesGateway implements IGateway {
         this.preferences = preferences;
 
         keyChangesObservable =
-                Observable.using(
-                        new Func0<SharedPreferences>() {
-                            @Override public SharedPreferences call() {
-                                return preferences;
-                            }
-                        },
-
-                        new Func1<SharedPreferences, Observable<? extends String>>() {
-                            @Override
-                            public Observable<? extends String> call(final SharedPreferences sharedPreferences) {
-                                return Observable.create(new Observable.OnSubscribe<String>() {
-                                    @Override public void call(final Subscriber<? super String> subscriber) {
-                                        listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-                                            @Override
-                                            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                                                subscriber.onNext(key);
-                                            }
-                                        };
-                                        sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
-                                    }
-                                });
-                            }
-                        },
-
-                        new Action1<SharedPreferences>() {
-                            @Override public void call(SharedPreferences sharedPreferences) {
+                Observable.using(new Callable<SharedPreferences>() {
+                                     @Override public SharedPreferences call() throws Exception {
+                                         return preferences;
+                                     }
+                                 }, new Function<SharedPreferences, ObservableSource<? extends String>>() {
+                                     @Override public ObservableSource<? extends String> apply(@NonNull final SharedPreferences sharedPreferences) throws Exception {
+                                         return Observable.create(new ObservableOnSubscribe<String>() {
+                                             @Override public void subscribe(final ObservableEmitter<String> e) throws Exception {
+                                                 listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+                                                     @Override
+                                                     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                                                         e.onNext(key);
+                                                     }
+                                                 };
+                                                 sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+                                             }
+                                         });
+                                     }
+                                 },
+                        new Consumer<SharedPreferences>() {
+                            @Override public void accept(@NonNull SharedPreferences sharedPreferences) throws Exception {
                                 sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
                                 listener = null;
                             }
-                        })
-                          .publish()
+                        }).publish()
                           .refCount();
     }
 
@@ -63,13 +63,13 @@ public class SharedPreferencesGateway implements IGateway {
 
         return keyChangesObservable
                 .startWith(key)
-                .filter(new Func1<String, Boolean>() {
-                    @Override public Boolean call(String changedKey) {
+                .filter(new Predicate<String>() {
+                    @Override public boolean test(String changedKey) {
                         return changedKey.equals(key);
                     }
                 })
-                .map(new Func1<String, Boolean>() {
-                    @Override public Boolean call(String s) {
+                .map(new Function<String, Boolean>() {
+                    @Override public Boolean apply(String s) {
                         return preferences.getBoolean(s, defaultValue);
                     }
                 });
@@ -80,13 +80,13 @@ public class SharedPreferencesGateway implements IGateway {
 
         return keyChangesObservable
                 .startWith(key)
-                .filter(new Func1<String, Boolean>() {
-                    @Override public Boolean call(String changedKey) {
+                .filter(new Predicate<String>() {
+                    @Override public boolean test(String changedKey) {
                         return changedKey.equals(key);
                     }
                 })
-                .map(new Func1<String, Float>() {
-                    @Override public Float call(String s) {
+                .map(new Function<String, Float>() {
+                    @Override public Float apply(String s) {
                         return preferences.getFloat(s, defaultValue);
                     }
                 });
@@ -97,13 +97,13 @@ public class SharedPreferencesGateway implements IGateway {
 
         return keyChangesObservable
                 .startWith(key)
-                .filter(new Func1<String, Boolean>() {
-                    @Override public Boolean call(String changedKey) {
+                .filter(new Predicate<String>() {
+                    @Override public boolean test(String changedKey) {
                         return changedKey.equals(key);
                     }
                 })
-                .map(new Func1<String, Integer>() {
-                    @Override public Integer call(String s) {
+                .map(new Function<String, Integer>() {
+                    @Override public Integer apply(String s) {
                         return preferences.getInt(s, defaultValue);
                     }
                 });
@@ -114,13 +114,13 @@ public class SharedPreferencesGateway implements IGateway {
 
         return keyChangesObservable
                 .startWith(key)
-                .filter(new Func1<String, Boolean>() {
-                    @Override public Boolean call(String changedKey) {
-                        return changedKey.equals(key);
+                .filter(new Predicate<String>() {
+                    @Override public boolean test(@NonNull String s) throws Exception {
+                        return s.equals(key);
                     }
                 })
-                .map(new Func1<String, Long>() {
-                    @Override public Long call(String s) {
+                .map(new Function<String, Long>() {
+                    @Override public Long apply(String s) {
                         return preferences.getLong(s, defaultValue);
                     }
                 });
@@ -131,13 +131,13 @@ public class SharedPreferencesGateway implements IGateway {
 
         return keyChangesObservable
                 .startWith(key)
-                .filter(new Func1<String, Boolean>() {
-                    @Override public Boolean call(String changedKey) {
-                        return changedKey.equals(key);
+                .filter(new Predicate<String>() {
+                    @Override public boolean test(@NonNull String s) throws Exception {
+                        return s.equals(key);
                     }
                 })
-                .map(new Func1<String, String>() {
-                    @Override public String call(String s) {
+                .map(new Function<String, String>() {
+                    @Override public String apply(@NonNull String s) throws Exception {
                         return preferences.getString(s, defaultValue);
                     }
                 });
@@ -174,7 +174,7 @@ public class SharedPreferencesGateway implements IGateway {
     }
 
     @Nonnull @Override public Observable<Boolean> contains(@Nonnull final String key) {
-        return Observable.fromCallable(new Func0<Boolean>() {
+        return Observable.fromCallable(new Callable<Boolean>() {
             @Override public Boolean call() {
                 return preferences.contains(key);
             }

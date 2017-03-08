@@ -11,7 +11,8 @@ import javax.annotation.Nonnull;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 
-import rx.Observable;
+import io.reactivex.Observable;
+
 
 public class Contains implements Generatable {
 

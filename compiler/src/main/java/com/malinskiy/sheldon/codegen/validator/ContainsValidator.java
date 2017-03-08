@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.VariableElement;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 public class ContainsValidator {
     public static void checkValidContainsMethod(@Nonnull ExecutableElement method) throws ProcessingException {

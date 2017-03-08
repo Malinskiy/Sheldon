@@ -1,7 +1,9 @@
 package com.malinskiy.sheldon;
 
+import com.malinskiy.sheldon.adapter.IPreferenceAdapter;
+
 public interface IAdapterProvider {
 
-    <T> com.malinskiy.sheldon.adapter.IPreferenceAdapter<T> get(Class<T> clazz);
+    <T> IPreferenceAdapter<T> get(Class<T> clazz);
 
 }

@@ -14,7 +14,8 @@ import javax.annotation.Nonnull;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.VariableElement;
 
-import rx.Observable;
+import io.reactivex.Observable;
+
 
 public class GetValidator {
     public static void checkValidGetter(@Nonnull ExecutableElement method, Map<String, DefaultValue> defaultsMap) throws ProcessingException {

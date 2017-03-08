@@ -2,7 +2,7 @@ package com.malinskiy.sheldon;
 
 import javax.annotation.Nonnull;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 public interface IGateway {
 
@@ -25,7 +25,6 @@ public interface IGateway {
     void putLong(@Nonnull String key, @Nonnull Long value);
 
     void putString(@Nonnull String key, @Nonnull String value);
-
 
     @Nonnull Observable<Boolean> contains(@Nonnull String key);
 

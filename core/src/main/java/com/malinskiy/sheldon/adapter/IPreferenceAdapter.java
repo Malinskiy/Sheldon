@@ -1,13 +1,15 @@
 package com.malinskiy.sheldon.adapter;
 
+import com.malinskiy.sheldon.IGateway;
+
 import javax.annotation.Nonnull;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 public interface IPreferenceAdapter<T> {
 
     @Nonnull
-    Observable<T> observe(@Nonnull String key, @Nonnull T defaultValue, @Nonnull com.malinskiy.sheldon.IGateway gateway);
+    Observable<T> observe(@Nonnull String key, @Nonnull T defaultValue, @Nonnull IGateway gateway);
 
-    void put(@Nonnull String key, @Nonnull T value, com.malinskiy.sheldon.IGateway gateway);
+    void put(@Nonnull String key, @Nonnull T value, IGateway gateway);
 }
