@@ -3,21 +3,19 @@ ext.versions = [
         name              : '0.1.1',
 
         minSdk            : 9,
-        targetSdk         : 23,
-        compileSdk        : 23,
-        buildTools        : '23.0.3',
+        targetSdk         : 25,
+        compileSdk        : 25,
+        buildTools        : '25.0.2',
 
         // Library versions
-        dagger            : '2.5',
+        dagger            : '2.9',
         jsr305            : '3.0.1',
         javaxAnnotationApi: '1.2',
-        rx                : '1.1.6',
-        rxBinding         : '0.4.0',
+        rx                : '2.0.7',
         poet              : '1.7.0',
         autoservice       : '1.0-rc2',
         autofactory       : '1.0-beta3',
         supportLibs       : '23.1.1',
-        guava             : '19.0',
 
         // Test library versions
         junit             : '4.12',
@@ -31,13 +29,12 @@ ext.libraries = [
         javaxAnnotationApi: "javax.annotation:javax.annotation-api:$versions.javaxAnnotationApi",
         jsr305            : "com.google.code.findbugs:jsr305:$versions.jsr305",
 
-        rx                : "io.reactivex:rxjava:$versions.rx",
+        rx                : "io.reactivex.rxjava2:rxjava:$versions.rx",
         supportAppCompat  : "com.android.support:appcompat-v7:$versions.supportLibs",
         supportAnnotations: "com.android.support:support-annotations:$versions.supportLibs",
         poet              : "com.squareup:javapoet:$versions.poet",
         autoservice       : "com.google.auto.service:auto-service:$versions.autoservice",
         autofactory       : "com.google.auto.factory:auto-factory:$versions.autofactory",
-        guava             : "com.google.guava:guava:$versions.guava",
 
         // Test dependencies
         junit             : "junit:junit:$versions.junit",

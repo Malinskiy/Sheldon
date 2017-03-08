@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -25,7 +24,7 @@ android {
 }
 
 dependencies {
-    apt project(':compiler')
+    annotationProcessor project(':compiler')
     compile project(':core')
     compile project(':gateway-sharedpreferences')
 
