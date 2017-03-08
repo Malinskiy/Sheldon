@@ -28,33 +28,33 @@ public class SharedPreferencesGateway implements IGateway {
     public SharedPreferencesGateway(@Nonnull final SharedPreferences preferences) {
         this.preferences = preferences;
 
-        keyChangesObservable =
-                Observable.using(new Callable<SharedPreferences>() {
-                                     @Override public SharedPreferences call() throws Exception {
-                                         return preferences;
-                                     }
-                                 }, new Function<SharedPreferences, ObservableSource<? extends String>>() {
-                                     @Override public ObservableSource<? extends String> apply(@NonNull final SharedPreferences sharedPreferences) throws Exception {
-                                         return Observable.create(new ObservableOnSubscribe<String>() {
-                                             @Override public void subscribe(final ObservableEmitter<String> e) throws Exception {
-                                                 listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-                                                     @Override
-                                                     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                                                         e.onNext(key);
-                                                     }
-                                                 };
-                                                 sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
-                                             }
-                                         });
-                                     }
-                                 },
-                        new Consumer<SharedPreferences>() {
-                            @Override public void accept(@NonNull SharedPreferences sharedPreferences) throws Exception {
-                                sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
-                                listener = null;
+        keyChangesObservable = Observable.using(
+                new Callable<SharedPreferences>() {
+                    @Override public SharedPreferences call() throws Exception {
+                        return preferences;
+                    }
+                },
+                new Function<SharedPreferences, ObservableSource<String>>() {
+                    @Override public ObservableSource<String> apply(@NonNull final SharedPreferences sharedPreferences) throws Exception {
+                        return Observable.create(new ObservableOnSubscribe<String>() {
+                            @Override public void subscribe(final ObservableEmitter<String> e) throws Exception {
+                                listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+                                    @Override
+                                    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                                        e.onNext(key);
+                                    }
+                                };
+                                sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
                             }
-                        }).publish()
-                          .refCount();
+                        });
+                    }
+                },
+                new Consumer<SharedPreferences>() {
+                    @Override public void accept(@NonNull SharedPreferences sharedPreferences) throws Exception {
+                        sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
+                        listener = null;
+                    }
+                }).publish().refCount();
     }
 
     @Nonnull @Override
