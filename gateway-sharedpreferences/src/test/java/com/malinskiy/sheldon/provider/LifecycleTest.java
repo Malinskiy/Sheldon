@@ -13,7 +13,7 @@ import org.robolectric.annotation.Config;
 
 import android.content.SharedPreferences;
 
-import rx.Subscription;
+import io.reactivex.disposables.Disposable;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
@@ -44,9 +44,9 @@ public class LifecycleTest {
 
     @Test
     public void testUnsubscribeTriggersUnregister() throws Exception {
-        Subscription subscription = gateway.observeBoolean("prefence", false)
-                                           .subscribe();
-        subscription.unsubscribe();
+        Disposable disposable = gateway.observeBoolean("prefence", false)
+                                       .subscribe();
+        disposable.dispose();
 
         verify(sharedPreferences).unregisterOnSharedPreferenceChangeListener(
                 any(SharedPreferences.OnSharedPreferenceChangeListener.class));

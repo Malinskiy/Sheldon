@@ -115,7 +115,9 @@ public class PreferencesProcessor extends AbstractProcessor {
         String packageName = IAdapterProvider.class.getPackage().getName();
         repositoryClassName = ClassName.get(packageName, className);
 
-        if (isAdapterRepositoryGenerated) return;
+        if (isAdapterRepositoryGenerated) {
+            return;
+        }
 
         MethodSpec.Builder providerInitializer = MethodSpec.constructorBuilder()
                                                            .addModifiers(Modifier.PRIVATE);

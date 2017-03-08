@@ -8,8 +8,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import rx.Observable;
-import rx.Observer;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.never;
@@ -21,7 +21,7 @@ public class EnumAdapterTest {
 
     @Mock IGateway gateway;
     @Mock Observer<NUMBER> observer;
-    private com.malinskiy.sheldon.adapter.impl.EnumAdapter<NUMBER> adapter;
+    private EnumAdapter<NUMBER> adapter;
 
     public enum NUMBER {
         ONE, TWO
@@ -29,7 +29,7 @@ public class EnumAdapterTest {
 
     @Before
     public void init() {
-        adapter = new com.malinskiy.sheldon.adapter.impl.EnumAdapter<>(NUMBER.class);
+        adapter = new EnumAdapter<>(NUMBER.class);
     }
 
     @Test
@@ -43,7 +43,7 @@ public class EnumAdapterTest {
         verify(gateway).observeString("testKey", NUMBER.ONE.name());
 
         verify(observer).onNext(NUMBER.TWO);
-        verify(observer).onCompleted();
+        verify(observer).onComplete();
         verify(observer, never()).onError(any(Throwable.class));
     }
 

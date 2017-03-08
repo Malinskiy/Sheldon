@@ -1,6 +1,7 @@
 package com.malinskiy.sheldon.provider;
 
-import rx.Observable;
+
+import io.reactivex.Observable;
 
 public class BooleanSharedPreferenceTypeTest extends BaseSharedPreferenceTypeTest<Boolean> {
 

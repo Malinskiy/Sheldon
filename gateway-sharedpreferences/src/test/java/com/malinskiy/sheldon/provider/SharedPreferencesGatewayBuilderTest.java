@@ -1,6 +1,5 @@
 package com.malinskiy.sheldon.provider;
 
-
 import com.malinskiy.sheldon.BuildConfig;
 
 import org.junit.Before;

@@ -4,7 +4,7 @@ import com.malinskiy.sheldon.annotation.Default;
 import com.malinskiy.sheldon.annotation.Get;
 import com.malinskiy.sheldon.annotation.Preferences;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 @Preferences(
         name = "test"

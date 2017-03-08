@@ -12,8 +12,9 @@ import org.robolectric.annotation.Config;
 
 import android.app.Application;
 
-import rx.Observable;
-import rx.observers.TestSubscriber;
+import io.reactivex.Observable;
+import io.reactivex.observers.TestObserver;
+
 
 @Config(constants = BuildConfig.class, sdk = 21)
 @RunWith(RobolectricGradleTestRunner.class)
@@ -43,72 +44,54 @@ public abstract class BaseSharedPreferenceTypeTest<T> {
 
     @Test
     public void testSubscribeTriggersInitialValue() {
-        TestSubscriber<T> observer = TestSubscriber.create();
+
         put(PREFERENCE_KEY, newValue);
-
-
-        observe(PREFERENCE_KEY, defaultValue)
-                .subscribe(observer);
+        TestObserver<T> observer = observe(PREFERENCE_KEY, defaultValue).test();
 
         observer.assertValue(newValue);
-        observer.assertNoTerminalEvent();
+        observer.assertNotTerminated();
     }
 
     @Test
     public void testRemovalEmitsDefaultValue() throws Exception {
-        TestSubscriber<T> observer = TestSubscriber.create();
-
-        observe(PREFERENCE_KEY, defaultValue)
-                .subscribe(observer);
+        TestObserver<T> observer = observe(PREFERENCE_KEY, defaultValue).test();
 
         gateway.remove(PREFERENCE_KEY);
         observer.assertValues(defaultValue, defaultValue);
-        observer.assertNoTerminalEvent();
+        observer.assertNotTerminated();
     }
 
     @Test
     public void testReturnsDefaultIfNotPresent() throws Exception {
-        TestSubscriber<T> observer = TestSubscriber.create();
-
-        observe(PREFERENCE_KEY, defaultValue)
-                .subscribe(observer);
+        TestObserver<T> observer = observe(PREFERENCE_KEY, defaultValue).test();
 
         observer.assertValue(defaultValue);
-        observer.assertNoTerminalEvent();
+        observer.assertNotTerminated();
     }
 
     @Test
     public void testPutProducesUpdate() throws Exception {
-        TestSubscriber<T> observer = TestSubscriber.create();
-
-        observe(PREFERENCE_KEY, defaultValue)
-                .subscribe(observer);
+        TestObserver<T> observer = observe(PREFERENCE_KEY, defaultValue).test();
 
         put(PREFERENCE_KEY, newValue);
         observer.assertValues(defaultValue, newValue);
-        observer.assertNoTerminalEvent();
+        observer.assertNotTerminated();
     }
 
     @Test
     public void testContains() throws Exception {
-        TestSubscriber<Boolean> observer = TestSubscriber.create();
-
-        gateway.contains(PREFERENCE_KEY)
-               .subscribe(observer);
+        TestObserver<Boolean> observer = gateway.contains(PREFERENCE_KEY).test();
 
         observer.assertValue(false);
-        observer.assertCompleted();
+        observer.assertComplete();
         observer.assertNoErrors();
     }
 
     @Test
     public void testObserve() throws Exception {
-        TestSubscriber<T> observer = TestSubscriber.create();
-
-        observe(PREFERENCE_KEY, defaultValue)
-                .subscribe(observer);
+        TestObserver<T> observer = observe(PREFERENCE_KEY, defaultValue).test();
 
         observer.assertValue(defaultValue);
-        observer.assertNoTerminalEvent();
+        observer.assertNotTerminated();
     }
 }

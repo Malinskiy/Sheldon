@@ -15,7 +15,7 @@ public class PreferencesProcessorTest {
     public void testBasicTypesWithDeleterAndContains() {
         assert_().about(javaSource())
                  .that(JavaFileObjects.forResource(Resources.getResource("BasicTypesPreferences.java")))
-                 .processedWith(new com.malinskiy.sheldon.codegen.PreferencesProcessor())
+                 .processedWith(new PreferencesProcessor())
                  .compilesWithoutError();
     }
 
@@ -23,7 +23,7 @@ public class PreferencesProcessorTest {
     public void testWithCustomAdapters() throws Exception {
         assert_().about(javaSource())
                  .that(JavaFileObjects.forResource(Resources.getResource("EnumAdapterPreference.java")))
-                 .processedWith(new com.malinskiy.sheldon.codegen.PreferencesProcessor())
+                 .processedWith(new PreferencesProcessor())
                  .compilesWithoutError();
     }
 
@@ -31,7 +31,7 @@ public class PreferencesProcessorTest {
     public void testWithoutDeleterOrContains() throws Exception {
         assert_().about(javaSource())
                  .that(JavaFileObjects.forResource(Resources.getResource("PreferencesWithoutContainsOrDeleter.java")))
-                 .processedWith(new com.malinskiy.sheldon.codegen.PreferencesProcessor())
+                 .processedWith(new PreferencesProcessor())
                  .compilesWithoutError();
     }
 
@@ -39,7 +39,7 @@ public class PreferencesProcessorTest {
     public void testNoGetter() throws Exception {
         assert_().about(javaSource())
                  .that(JavaFileObjects.forResource(Resources.getResource("NoGetterPreference.java")))
-                 .processedWith(new com.malinskiy.sheldon.codegen.PreferencesProcessor())
+                 .processedWith(new PreferencesProcessor())
                  .failsToCompile();
     }
 
@@ -47,7 +47,7 @@ public class PreferencesProcessorTest {
     public void testNoSetter() throws Exception {
         assert_().about(javaSource())
                  .that(JavaFileObjects.forResource(Resources.getResource("NoSetterPreference.java")))
-                 .processedWith(new com.malinskiy.sheldon.codegen.PreferencesProcessor())
+                 .processedWith(new PreferencesProcessor())
                  .failsToCompile();
     }
 
@@ -55,7 +55,7 @@ public class PreferencesProcessorTest {
     public void testNoDefault() throws Exception {
         assert_().about(javaSource())
                  .that(JavaFileObjects.forResource(Resources.getResource("NoDefaultPreference.java")))
-                 .processedWith(new com.malinskiy.sheldon.codegen.PreferencesProcessor())
+                 .processedWith(new PreferencesProcessor())
                  .failsToCompile();
     }
 }
