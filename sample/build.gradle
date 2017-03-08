@@ -27,6 +27,4 @@ dependencies {
     annotationProcessor project(':compiler')
     compile project(':core')
     compile project(':gateway-sharedpreferences')
-
-    compile libraries.supportAnnotations
 }
