@@ -58,9 +58,9 @@ repositories {
 ...
 dependencies {
     ...
-    apt "com.malinskiy.sheldon:compiler:$version"
-    compile "com.malinskiy.sheldon:core:$version"
-    compile "com.malinskiy.sheldon:gateway-sharedpreferences:$version"
+    apt "com.malinskiy.sheldon2:compiler:$version"
+    compile "com.malinskiy.sheldon2:core:$version"
+    compile "com.malinskiy.sheldon2:gateway-sharedpreferences:$version"
     ...
 }
 ```

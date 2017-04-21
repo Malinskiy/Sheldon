@@ -1,8 +1,8 @@
 package test;
 
-import com.malinskiy.sheldon.annotation.Default;
-import com.malinskiy.sheldon.annotation.Get;
-import com.malinskiy.sheldon.annotation.Preferences;
+import com.malinskiy.sheldon2.annotation.Default;
+import com.malinskiy.sheldon2.annotation.Get;
+import com.malinskiy.sheldon2.annotation.Preferences;
 
 import io.reactivex.Observable;
 

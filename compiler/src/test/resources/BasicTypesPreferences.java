@@ -1,11 +1,11 @@
 package test;
 
-import com.malinskiy.sheldon.annotation.Contains;
-import com.malinskiy.sheldon.annotation.Default;
-import com.malinskiy.sheldon.annotation.Delete;
-import com.malinskiy.sheldon.annotation.Get;
-import com.malinskiy.sheldon.annotation.Preferences;
-import com.malinskiy.sheldon.annotation.Set;
+import com.malinskiy.sheldon2.annotation.Contains;
+import com.malinskiy.sheldon2.annotation.Default;
+import com.malinskiy.sheldon2.annotation.Delete;
+import com.malinskiy.sheldon2.annotation.Get;
+import com.malinskiy.sheldon2.annotation.Preferences;
+import com.malinskiy.sheldon2.annotation.Set;
 
 import io.reactivex.Observable;
 
