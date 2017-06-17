@@ -94,4 +94,20 @@ public abstract class BaseSharedPreferenceTypeTest<T> {
         observer.assertValue(defaultValue);
         observer.assertNotTerminated();
     }
+
+    @Test
+    public void testClear()  throws Exception{
+        put(PREFERENCE_KEY, newValue);
+        TestObserver<T> observer = observe(PREFERENCE_KEY, defaultValue).test();
+
+        observer.assertValue(newValue);
+        observer.assertNotTerminated();
+
+        gateway.clear();
+
+        observer = observe(PREFERENCE_KEY, defaultValue).test();
+
+        observer.assertValue(defaultValue);
+        observer.assertNotTerminated();
+    }
 }

@@ -179,6 +179,8 @@ public class Preference {
             deleter.get().generateCode(builder);
         }
 
+        new Cleaner(PROVIDER_FIELD_NAME).generateCode(builder);
+
         JavaFile javaFile = JavaFile.builder(packageName, builder.build())
                                     .build();
 

@@ -186,4 +186,11 @@ public class SharedPreferencesGateway implements IGateway {
                    .remove(key)
                    .apply();
     }
+
+    @Override
+    public void clear() {
+        preferences.edit()
+                .clear()
+                .apply();
+    }
 }

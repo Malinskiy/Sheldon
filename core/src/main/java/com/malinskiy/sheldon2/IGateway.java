@@ -29,4 +29,6 @@ public interface IGateway {
     @Nonnull Observable<Boolean> contains(@Nonnull String key);
 
     void remove(@Nonnull String key);
+
+    void clear();
 }
