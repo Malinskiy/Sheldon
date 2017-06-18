@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/Malinskiy/Sheldon.svg?branch=master)](https://travis-ci.org/Malinskiy/Sheldon) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Sheldon-green.svg?style=true)](https://android-arsenal.com/details/1/3378) [![Join the chat at https://gitter.im/Malinskiy/Sheldon](https://badges.gitter.im/Malinskiy/Sheldon.svg)](https://gitter.im/Malinskiy/Sheldon?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+![Maven Central](https://img.shields.io/maven-central/v/com.malinskiy.sheldon2/compiler.svg)
 
 # Sheldon
 Key concepts:
