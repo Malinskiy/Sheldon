@@ -5,6 +5,7 @@ import com.malinskiy.sheldon2.adapter.IPreferenceAdapter;
 
 import javax.annotation.Nonnull;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
@@ -29,6 +30,11 @@ public class EnumAdapter<T extends Enum<T>> implements IPreferenceAdapter<T> {
 
     @Override public void put(@Nonnull String key, @Nonnull T value, IGateway gateway) {
         gateway.putString(key, toString(value));
+    }
+
+    @Override
+    public Completable putSync(@Nonnull String key, @Nonnull T value, IGateway gateway) {
+        return gateway.putStringSync(key, toString(value));
     }
 
     @Nonnull private T fromString(@Nonnull String string) {

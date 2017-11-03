@@ -4,6 +4,7 @@ import com.malinskiy.sheldon2.annotation.Set;
 import com.malinskiy.sheldon2.codegen.ProcessingException;
 import com.malinskiy.sheldon2.codegen.Utils;
 import com.malinskiy.sheldon2.codegen.model.DefaultValue;
+import io.reactivex.Completable;
 
 import java.util.List;
 import java.util.Map;
@@ -24,9 +25,9 @@ public class SetValidator {
         }
 
         TypeMirror returnType = method.getReturnType();
-        if (returnType.getKind() != TypeKind.VOID) {
+        if (returnType.getKind() != TypeKind.VOID && !returnType.toString().equals(Completable.class.getCanonicalName())) {
             throw new ProcessingException(method,
-                    "Invalid return type @%s for setter. Should be void",
+                    "Invalid return type @%s for setter. Should be void or Completable",
                     returnType.toString());
         }
 

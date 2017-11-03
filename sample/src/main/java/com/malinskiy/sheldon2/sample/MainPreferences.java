@@ -7,6 +7,7 @@ import com.malinskiy.sheldon2.annotation.Get;
 import com.malinskiy.sheldon2.annotation.Preferences;
 import com.malinskiy.sheldon2.annotation.Set;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 
 @Preferences(
@@ -25,7 +26,7 @@ public interface MainPreferences {
 
     @Get(name = "enum") Observable<Type> getEnum();
 
-    @Set(name = "enum") void setEnum(Type value);
+    @Set(name = "enum") Completable setEnum(Type value);
 
     @Contains Observable<Boolean> contains(String key);
 

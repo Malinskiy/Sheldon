@@ -1,5 +1,6 @@
 package com.malinskiy.sheldon2.provider;
 
+import android.annotation.SuppressLint;
 import com.malinskiy.sheldon2.IGateway;
 
 import android.content.SharedPreferences;
@@ -9,11 +10,9 @@ import java.util.concurrent.Callable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.ObservableSource;
+import io.reactivex.*;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
@@ -76,7 +75,7 @@ public class SharedPreferencesGateway implements IGateway {
     }
 
     @Nonnull @Override public Observable<Float> observeFloat(@Nonnull final String key,
-                                                             @Nonnull final Float defaultValue) {
+                                          @Nonnull final Float defaultValue) {
 
         return keyChangesObservable
                 .startWith(key)
@@ -145,35 +144,92 @@ public class SharedPreferencesGateway implements IGateway {
 
     @Override public void putBoolean(@Nonnull String key, @Nonnull Boolean value) {
         preferences.edit()
-                   .putBoolean(key, value)
-                   .apply();
+                .putBoolean(key, value)
+                .apply();
     }
 
     @Override public void putFloat(@Nonnull String key, @Nonnull Float value) {
         preferences.edit()
-                   .putFloat(key, value)
-                   .apply();
+                .putFloat(key, value)
+                .apply();
     }
 
     @Override public void putInteger(@Nonnull String key, @Nonnull Integer value) {
         preferences.edit()
-                   .putInt(key, value)
-                   .apply();
+                .putInt(key, value)
+                .apply();
     }
 
     @Override public void putLong(@Nonnull String key, @Nonnull Long value) {
         preferences.edit()
-                   .putLong(key, value)
-                   .apply();
+                .putLong(key, value)
+                .apply();
     }
 
     @Override public void putString(@Nonnull String key, @Nonnull String value) {
         preferences.edit()
-                   .putString(key, value)
-                   .apply();
+                .putString(key, value)
+                .apply();
     }
 
-    @Nonnull @Override public Observable<Boolean> contains(@Nonnull final String key) {
+    @SuppressLint("ApplySharedPref") @Override
+    public Completable putBooleanSync(@Nonnull final String key, @Nonnull final Boolean value) {
+        return Completable.fromAction(new Action() {
+            @Override public void run() throws Exception {
+                preferences.edit()
+                        .putBoolean(key, value)
+                        .commit();
+            }
+        });
+    }
+
+    @SuppressLint("ApplySharedPref") @Override
+    public Completable putFloatSync(@Nonnull final String key, @Nonnull final Float value) {
+        return Completable.fromAction(new Action() {
+            @Override public void run() throws Exception {
+                preferences.edit()
+                        .putFloat(key, value)
+                        .commit();
+            }
+        });
+    }
+
+    @SuppressLint("ApplySharedPref") @Override
+    public Completable putIntegerSync(@Nonnull final String key, @Nonnull final Integer value) {
+        return Completable.fromAction(new Action() {
+            @Override public void run() throws Exception {
+                preferences.edit()
+                        .putInt(key, value)
+                        .commit();
+            }
+        });
+    }
+
+    @SuppressLint("ApplySharedPref") @Override
+    public Completable putLongSync(@Nonnull final String key, @Nonnull final Long value) {
+        return Completable.fromAction(new Action() {
+            @Override public void run() throws Exception {
+                preferences.edit()
+                        .putLong(key, value)
+                        .commit();
+            }
+        });
+
+    }
+
+    @SuppressLint("ApplySharedPref") @Override
+    public Completable putStringSync(@Nonnull final String key, @Nonnull final String value) {
+        return Completable.fromAction(new Action() {
+            @Override public void run() throws Exception {
+                preferences.edit()
+                        .putString(key, value)
+                        .commit();
+            }
+        });
+    }
+
+    @Nonnull @Override
+    public Observable<Boolean> contains(@Nonnull final String key) {
         return Observable.fromCallable(new Callable<Boolean>() {
             @Override public Boolean call() {
                 return preferences.contains(key);
@@ -183,12 +239,11 @@ public class SharedPreferencesGateway implements IGateway {
 
     @Override public void remove(@Nonnull String key) {
         preferences.edit()
-                   .remove(key)
-                   .apply();
+                .remove(key)
+                .apply();
     }
 
-    @Override
-    public void clear() {
+    @Override public void clear() {
         preferences.edit()
                 .clear()
                 .apply();
