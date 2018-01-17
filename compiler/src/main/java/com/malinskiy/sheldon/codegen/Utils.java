@@ -29,8 +29,8 @@ public class Utils {
         boolean isSetter = method.getReturnType().getKind().equals(TypeKind.VOID);
 
         return isSetter ?
-               getType(method.getParameters().get(0).asType()) :
-               getType(MoreTypes.asDeclared(method.getReturnType()).getTypeArguments().get(0));
+                getType(method.getParameters().get(0).asType()) :
+                getType(MoreTypes.asDeclared(method.getReturnType()).getTypeArguments().get(0));
     }
 
     private static PREF_TYPE getType(TypeMirror type) {

@@ -43,9 +43,9 @@ public class Getter implements Generatable {
         String prefName = Utils.getName(method);
 
         MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(methodName)
-                                                     .addModifiers(Modifier.PUBLIC)
-                                                     .addAnnotation(Override.class)
-                                                     .returns(TypeName.get(returnType));
+                .addModifiers(Modifier.PUBLIC)
+                .addAnnotation(Override.class)
+                .returns(TypeName.get(returnType));
 
         String defaultFieldName = defaultValue.getElement().getSimpleName().toString();
 
@@ -68,7 +68,7 @@ public class Getter implements Generatable {
                 break;
             case OBJECT:
                 methodBuilder.addStatement("return $T.getInstance().get($T.class).observe(\"" + prefName + "\", " +
-                                           defaultFieldName + ", " + providerFieldName + ")", repositoryClassName,
+                                defaultFieldName + ", " + providerFieldName + ")", repositoryClassName,
                         defaultValue.getElement().asType());
                 break;
             default:

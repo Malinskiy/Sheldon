@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import android.content.Context;
@@ -16,7 +16,7 @@ import android.content.Context;
 import static org.mockito.Mockito.verify;
 
 @Config(constants = BuildConfig.class, sdk = 21)
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class SharedPreferencesGatewayBuilderTest {
 
     @Mock Context context;

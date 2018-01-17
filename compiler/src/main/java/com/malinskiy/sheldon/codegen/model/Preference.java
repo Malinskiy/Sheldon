@@ -152,15 +152,15 @@ public class Preference {
 
         MethodSpec.Builder builderConstructor =
                 MethodSpec.constructorBuilder()
-                          .addModifiers(Modifier.PUBLIC)
-                          .addParameter(GatewayBuilder.class, "builder")
-                          .addStatement("this.$N = builder.namespace($S).build()", PROVIDER_FIELD_NAME, namespace);
+                        .addModifiers(Modifier.PUBLIC)
+                        .addParameter(GatewayBuilder.class, "builder")
+                        .addStatement("this.$N = builder.namespace($S).build()", PROVIDER_FIELD_NAME, namespace);
 
         TypeSpec.Builder builder = TypeSpec.classBuilder(preferencesClassName)
-                                           .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-                                           .addSuperinterface(TypeName.get(annotatedClassElement.asType()))
-                                           .addField(providerFieldSpec.build())
-                                           .addMethod(builderConstructor.build());
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                .addSuperinterface(TypeName.get(annotatedClassElement.asType()))
+                .addField(providerFieldSpec.build())
+                .addMethod(builderConstructor.build());
 
 
         for (Setter setter : settersMap.values()) {
@@ -180,7 +180,7 @@ public class Preference {
         }
 
         JavaFile javaFile = JavaFile.builder(packageName, builder.build())
-                                    .build();
+                .build();
 
         javaFile.writeTo(filer);
     }

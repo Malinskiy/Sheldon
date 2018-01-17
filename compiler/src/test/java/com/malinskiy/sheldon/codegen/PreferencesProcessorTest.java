@@ -58,4 +58,12 @@ public class PreferencesProcessorTest {
                  .processedWith(new com.malinskiy.sheldon.codegen.PreferencesProcessor())
                  .failsToCompile();
     }
+
+    @Test
+    public void testCompletableSetDefault() throws Exception {
+        assert_().about(javaSource())
+                .that(JavaFileObjects.forResource(Resources.getResource("CompletableSetterPreference.java")))
+                .processedWith(new com.malinskiy.sheldon.codegen.PreferencesProcessor())
+                .compilesWithoutError();
+    }
 }

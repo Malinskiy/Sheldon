@@ -15,10 +15,10 @@ public class ConsistencyValidator {
                                         @Nonnull Set<String> setters) throws ProcessingException {
 
         if (!HashMultiset.create(setters).equals(HashMultiset.create(getters)) ||
-            !HashMultiset.create(setters).equals(HashMultiset.create(defaults))) {
+                !HashMultiset.create(setters).equals(HashMultiset.create(defaults))) {
 
             throw new ProcessingException(null, "Incomplete interface definition (missing either getter, setter or " +
-                                                "default)");
+                    "default)");
         }
     }
 }

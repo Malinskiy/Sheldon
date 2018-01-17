@@ -7,8 +7,10 @@ import android.content.SharedPreferences;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import rx.Completable;
 import rx.Observable;
 import rx.Subscriber;
+import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func0;
 import rx.functions.Func1;
@@ -53,8 +55,8 @@ public class SharedPreferencesGateway implements IGateway {
                                 listener = null;
                             }
                         })
-                          .publish()
-                          .refCount();
+                        .publish()
+                        .refCount();
     }
 
     @Nonnull @Override
@@ -145,32 +147,83 @@ public class SharedPreferencesGateway implements IGateway {
 
     @Override public void putBoolean(@Nonnull String key, @Nonnull Boolean value) {
         preferences.edit()
-                   .putBoolean(key, value)
-                   .apply();
+                .putBoolean(key, value)
+                .apply();
     }
 
     @Override public void putFloat(@Nonnull String key, @Nonnull Float value) {
         preferences.edit()
-                   .putFloat(key, value)
-                   .apply();
+                .putFloat(key, value)
+                .apply();
     }
 
     @Override public void putInteger(@Nonnull String key, @Nonnull Integer value) {
         preferences.edit()
-                   .putInt(key, value)
-                   .apply();
+                .putInt(key, value)
+                .apply();
     }
 
     @Override public void putLong(@Nonnull String key, @Nonnull Long value) {
         preferences.edit()
-                   .putLong(key, value)
-                   .apply();
+                .putLong(key, value)
+                .apply();
     }
 
     @Override public void putString(@Nonnull String key, @Nonnull String value) {
         preferences.edit()
-                   .putString(key, value)
-                   .apply();
+                .putString(key, value)
+                .apply();
+    }
+
+    @Override public Completable putBooleanSync(@Nonnull final String key, @Nonnull final Boolean value) {
+        return Completable.fromAction(new Action0() {
+            @Override public void call() {
+                preferences.edit()
+                        .putBoolean(key, value)
+                        .commit();
+            }
+        });
+    }
+
+    @Override public Completable putFloatSync(@Nonnull final String key, @Nonnull final Float value) {
+        return Completable.fromAction(new Action0() {
+            @Override public void call() {
+                preferences.edit()
+                        .putFloat(key, value)
+                        .commit();
+            }
+        });
+    }
+
+    @Override public Completable putIntegerSync(@Nonnull final String key, @Nonnull final Integer value) {
+        return Completable.fromAction(new Action0() {
+            @Override public void call() {
+                preferences.edit()
+                        .putInt(key, value)
+                        .commit();
+            }
+        });
+    }
+
+    @Override public Completable putLongSync(@Nonnull final String key, @Nonnull final Long value) {
+        return Completable.fromAction(new Action0() {
+            @Override public void call() {
+                preferences.edit()
+                        .putLong(key, value)
+                        .commit();
+            }
+        });
+
+    }
+
+    @Override public Completable putStringSync(@Nonnull final String key, @Nonnull final String value) {
+        return Completable.fromAction(new Action0() {
+            @Override public void call() {
+                preferences.edit()
+                        .putString(key, value)
+                        .commit();
+            }
+        });
     }
 
     @Nonnull @Override public Observable<Boolean> contains(@Nonnull final String key) {
@@ -183,7 +236,7 @@ public class SharedPreferencesGateway implements IGateway {
 
     @Override public void remove(@Nonnull String key) {
         preferences.edit()
-                   .remove(key)
-                   .apply();
+                .remove(key)
+                .apply();
     }
 }

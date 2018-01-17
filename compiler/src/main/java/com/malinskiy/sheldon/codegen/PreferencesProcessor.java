@@ -118,7 +118,7 @@ public class PreferencesProcessor extends AbstractProcessor {
         if (isAdapterRepositoryGenerated) return;
 
         MethodSpec.Builder providerInitializer = MethodSpec.constructorBuilder()
-                                                           .addModifiers(Modifier.PRIVATE);
+                .addModifiers(Modifier.PRIVATE);
 
         for (Map.Entry<TypeMirror, Element> entry : adapters.entrySet()) {
             providerInitializer.addStatement("register($T.class, new $T())", entry.getKey(), entry.getValue().asType());
@@ -126,49 +126,49 @@ public class PreferencesProcessor extends AbstractProcessor {
 
         FieldSpec.Builder instanceFieldSpec =
                 FieldSpec.builder(repositoryClassName, "INSTANCE", Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
-                         .initializer("new $T()", repositoryClassName);
+                        .initializer("new $T()", repositoryClassName);
 
         ParameterizedTypeName adaptersMapClassName = ParameterizedTypeName.get(Map.class, Class.class, IPreferenceAdapter.class);
         FieldSpec.Builder adaptersFieldSpec =
                 FieldSpec.builder(adaptersMapClassName, "adapters", Modifier.PRIVATE)
-                         .initializer("new $T<>()", ConcurrentHashMap.class);
+                        .initializer("new $T<>()", ConcurrentHashMap.class);
 
         TypeVariableName t = TypeVariableName.get("T");
         MethodSpec.Builder registerMethodBuidler = MethodSpec.methodBuilder("register")
-                                                             .addModifiers(Modifier.PRIVATE)
-                                                             .addTypeVariable(t)
-                                                             .returns(void.class)
-                                                             .addParameter(ParameterizedTypeName.get(ClassName.get(Class.class), t), "clazz")
-                                                             .addParameter(ParameterizedTypeName.get(ClassName.get(IPreferenceAdapter.class), t), "adapter")
-                                                             .addStatement("adapters.put($N, $N)", "clazz", "adapter");
+                .addModifiers(Modifier.PUBLIC)
+                .addTypeVariable(t)
+                .returns(void.class)
+                .addParameter(ParameterizedTypeName.get(ClassName.get(Class.class), t), "clazz")
+                .addParameter(ParameterizedTypeName.get(ClassName.get(IPreferenceAdapter.class), t), "adapter")
+                .addStatement("adapters.put($N, $N)", "clazz", "adapter");
 
         MethodSpec.Builder getMethodBuidler = MethodSpec.methodBuilder("get")
-                                                        .addModifiers(Modifier.PUBLIC)
-                                                        .addTypeVariable(t)
-                                                        .addAnnotation(Override.class)
-                                                        .returns(ParameterizedTypeName.get(ClassName.get(IPreferenceAdapter.class), t))
-                                                        .addParameter(ParameterizedTypeName.get(ClassName.get(Class.class), t), "clazz")
-                                                        .addStatement("return adapters.get($N)", "clazz");
+                .addModifiers(Modifier.PUBLIC)
+                .addTypeVariable(t)
+                .addAnnotation(Override.class)
+                .returns(ParameterizedTypeName.get(ClassName.get(IPreferenceAdapter.class), t))
+                .addParameter(ParameterizedTypeName.get(ClassName.get(Class.class), t), "clazz")
+                .addStatement("return adapters.get($N)", "clazz");
 
 
         MethodSpec.Builder getInstanceMethodBuidler = MethodSpec.methodBuilder("getInstance")
-                                                                .addModifiers(Modifier.PUBLIC)
-                                                                .addModifiers(Modifier.STATIC)
-                                                                .returns(repositoryClassName)
-                                                                .addStatement("return $N", "INSTANCE");
+                .addModifiers(Modifier.PUBLIC)
+                .addModifiers(Modifier.STATIC)
+                .returns(repositoryClassName)
+                .addStatement("return $N", "INSTANCE");
 
         TypeSpec.Builder builder = TypeSpec.classBuilder(className)
-                                           .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-                                           .addSuperinterface(TypeName.get(IAdapterProvider.class))
-                                           .addField(instanceFieldSpec.build())
-                                           .addField(adaptersFieldSpec.build())
-                                           .addMethod(providerInitializer.build())
-                                           .addMethod(registerMethodBuidler.build())
-                                           .addMethod(getMethodBuidler.build())
-                                           .addMethod(getInstanceMethodBuidler.build());
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                .addSuperinterface(TypeName.get(IAdapterProvider.class))
+                .addField(instanceFieldSpec.build())
+                .addField(adaptersFieldSpec.build())
+                .addMethod(providerInitializer.build())
+                .addMethod(registerMethodBuidler.build())
+                .addMethod(getMethodBuidler.build())
+                .addMethod(getInstanceMethodBuidler.build());
 
         JavaFile javaFile = JavaFile.builder(packageName, builder.build())
-                                    .build();
+                .build();
 
         javaFile.writeTo(filer);
         isAdapterRepositoryGenerated = true;
@@ -189,7 +189,7 @@ public class PreferencesProcessor extends AbstractProcessor {
         if (existing != null) {
             throw new ProcessingException(toInsert.getTypeElement(),
                     "Conflict: The interface %s is annotated with @%s with name ='%s' but %s already uses the same " +
-                    "name",
+                            "name",
                     toInsert.getTypeElement().getQualifiedName().toString(), Preferences.class.getSimpleName(),
                     toInsert.getNamespace(), existing.getTypeElement().getQualifiedName().toString());
         }

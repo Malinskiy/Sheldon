@@ -18,7 +18,7 @@ public class DeleteValidator {
         }
 
         if (method.getParameters().size() != 1 ||
-            !MoreTypes.isTypeOf(String.class, method.getParameters().get(0).asType())) {
+                !MoreTypes.isTypeOf(String.class, method.getParameters().get(0).asType())) {
             throw new ProcessingException(
                     method,
                     "Should have only one String parameter"

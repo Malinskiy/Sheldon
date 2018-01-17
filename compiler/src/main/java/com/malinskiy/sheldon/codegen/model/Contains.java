@@ -29,11 +29,11 @@ public class Contains implements Generatable {
     public void generateCode(TypeSpec.Builder builder) throws ProcessingException {
         builder.addMethod(
                 MethodSpec.methodBuilder(method.getSimpleName().toString())
-                          .addModifiers(Modifier.PUBLIC)
-                          .addParameter(String.class, "key")
-                          .returns(ParameterizedTypeName.get(Observable.class, Boolean.class))
-                          .addStatement("return " + providerFieldName + ".contains($N)", "key")
-                          .build());
+                        .addModifiers(Modifier.PUBLIC)
+                        .addParameter(String.class, "key")
+                        .returns(ParameterizedTypeName.get(Observable.class, Boolean.class))
+                        .addStatement("return " + providerFieldName + ".contains($N)", "key")
+                        .build());
     }
 
 }

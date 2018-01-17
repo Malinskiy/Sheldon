@@ -26,9 +26,9 @@ public class Deleter implements Generatable {
     public void generateCode(TypeSpec.Builder builder) throws ProcessingException {
         builder.addMethod(
                 MethodSpec.methodBuilder(method.getSimpleName().toString())
-                          .addModifiers(Modifier.PUBLIC)
-                          .addParameter(String.class, "key")
-                          .addStatement(providerFieldName + ".remove($N)", "key")
-                          .build());
+                        .addModifiers(Modifier.PUBLIC)
+                        .addParameter(String.class, "key")
+                        .addStatement(providerFieldName + ".remove($N)", "key")
+                        .build());
     }
 }

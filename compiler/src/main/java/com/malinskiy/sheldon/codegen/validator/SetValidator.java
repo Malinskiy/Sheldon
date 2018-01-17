@@ -4,6 +4,7 @@ import com.malinskiy.sheldon.annotation.Set;
 import com.malinskiy.sheldon.codegen.ProcessingException;
 import com.malinskiy.sheldon.codegen.Utils;
 import com.malinskiy.sheldon.codegen.model.DefaultValue;
+import rx.Completable;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,8 @@ public class SetValidator {
         }
 
         TypeMirror returnType = method.getReturnType();
-        if (!returnType.getKind().equals(TypeKind.VOID)) {
+        if (!returnType.getKind().equals(TypeKind.VOID)
+                && !returnType.toString().equals(Completable.class.getCanonicalName())) {
             throw new ProcessingException(method,
                     "Invalid return type @%s for setter. Should be void",
                     returnType.toString());
